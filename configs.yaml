@@ -1,0 +1,54 @@
+# Universal Photometric Stereo Configuration File
+
+# Dataset Paths
+paths:
+  train_root: "/kaggle/input/ps-wild"
+  test_root: "/kaggle/input/ps-wild/PSWildTest"
+  output_dir: "./output"
+  checkpoint_dir: "./pretrained_weights"
+
+# Training Parameters
+training:
+  batch_size: 2
+  learning_rate: 0.0001
+  epochs: 5
+  img_size: 256
+  max_images: 10  # Max images per object for training
+  lighting_type: 'all'  # 'Directional', 'Environment', 'DirEnv', or 'all'
+  num_samples: 2500  # Number of samples per object during training
+  num_workers: 2
+
+# Testing/Evaluation Parameters
+testing:
+  batch_size: 1
+  max_images: 32  # Max images per object for testing
+  img_size: 256
+  lighting_type: 'Directional'  # Options: 'Directional', 'Environment', 'DirEnv', 'all'
+  num_workers: 1
+  chunk_size: 5000  # Processing chunk size to prevent OOM
+
+# Inference Parameters
+inference:
+  img_size: 256
+  max_images: 32  # Maximum number of images to use from input folder
+  output_dir: "./output/inference_results"
+  chunk_size: 5000
+
+# Model Parameters
+model:
+  encoder_input_nc: 4
+  encoder_channels: [96, 192, 384, 768]
+  aggregation_dim_input: 259  # 256 (features) + 3 (RGB)
+  aggregation_num_enc_sab: 3
+  aggregation_dim_hidden: 384
+  aggregation_num_heads: 8
+  prediction_dim_output: 3
+
+# Resume Training
+resume:
+  enabled: true  # Automatically resume from latest checkpoint if available
+  load_epoch: null  # Specific epoch to load, or null for latest
+
+# Device
+device: "cuda"  # or "cpu"
+
